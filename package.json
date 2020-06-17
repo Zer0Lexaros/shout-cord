@@ -1,0 +1,42 @@
+{
+  "name": "shoutcord",
+  "version": "1.0.0",
+  "description": "A shoutcast-Discord bridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Morgan 'Zer0Xeon' Lewis",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "debug": "^4.1.1",
+    "discord.js": "^12.2.0",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "icy": "^2.0.0",
+    "node-opus": "^0.3.3",
+    "opusscript": "0.0.7",
+    "readable-stream": "^3.6.0",
+    "stream-parser": "^0.3.1",
+    "ytdl-core": "^2.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zer0Lexaros/shout-cord.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "shoutcast",
+    "icecast"
+  ],
+  "bugs": {
+    "url": "https://github.com/Zer0Lexaros/shout-cord/issues"
+  },
+  "homepage": "https://github.com/Zer0Lexaros/shout-cord#readme"
+}
