@@ -45,7 +45,7 @@ client.on('message', async message => {
     } else if (message.content.startsWith(`${prefix}help`)) {
         message.channel.send(`${prefix}play <url> - Plays radio from the stream provided \n${prefix}change <url> - Changes Radio URL to the one provided \n${prefix}stop - Stops radio and disconnects\n${prefix}stations - A link to a radio station directory`);
     } else if(message.content.startsWith(`${prefix}stations`)){
-        message.channel.send(``)
+        message.channel.send(`Need a station? Go here http://dir.xiph.org/ and right click on play and copy location. After that punch in ${prefix}play then the URL and I will play it!`)
     }else {
         message.channel.send("You need to enter a valid command!");
     }
