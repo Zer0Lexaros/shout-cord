@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('./config.json');
+const config = require('./myconfig.json');
 const prefix = config.prefix || process.env.PREFIX;
 const token = config.token || process.env.TOKEN;
 const client = new Discord.Client();
@@ -36,17 +36,14 @@ client.on('message', async message => {
     if (message.content.startsWith(`${prefix}play`)) {
         execute(message, serverStation);
         return;
-    } else if (message.content.startsWith(`${prefix}change`)) {
-        execute(message, serverStation);
-        return;
     } else if (message.content.startsWith(`${prefix}stop`)) {
         stop(message, serverStation);
         return;
     } else if (message.content.startsWith(`${prefix}help`)) {
-        message.channel.send(`${prefix}play <url> - Plays radio from the stream provided \n${prefix}change <url> - Changes Radio URL to the one provided \n${prefix}stop - Stops radio and disconnects\n${prefix}stations - A link to a radio station directory`);
-    } else if(message.content.startsWith(`${prefix}stations`)){
+        message.channel.send(`${prefix}play <url> - Plays radio from the stream provided \n${prefix}stop - Stops radio and disconnects\n${prefix}stations - A link to a radio station directory`);
+    } else if (message.content.startsWith(`${prefix}stations`)) {
         message.channel.send(`Need a station? Go here http://dir.xiph.org/ and right click on play and copy location. After that punch in ${prefix}play then the URL and I will play it!`)
-    }else {
+    } else {
         message.channel.send("You need to enter a valid command!");
     }
 
@@ -55,7 +52,7 @@ client.on('message', async message => {
 
 
 // Start Playing Broadcast
-async function execute(message, serverStation) {
+async function execute(message) {
 
     // turn everything after space into the argument
     const args = message.content.split(" ");
@@ -75,48 +72,45 @@ async function execute(message, serverStation) {
     }
 
     const station = args[1];
- //   const station={
- //       url:stationURL
- //   }
+    //   const station={
+    //       url:stationURL
+    //   }
 
-    if (!serverStation) {
-        const stationContruct = {
-            textChannel: message.channel,
-            voiceChannel: VC,
-            connection: null,
-            station: [],
-            volume: 5,
-            playing: true
-        };
 
-        stationMap.set(message.guild.id, stationContruct);
-        stationContruct.station.push(station);
+    const stationContruct = {
+        textChannel: message.channel,
+        voiceChannel: VC,
+        connection: null,
+        station: [],
+        volume: 5,
+        playing: true
+    };
 
-        try {
-            var connection = await VC.join();
-            stationContruct.connection = connection;
-            play(message.guild, stationContruct.station[0]);
-        } catch (err) {
-            console.log(err);
-            stationMap.delete(message.guild.id);
-            return message.channel.send(err);
-        }
-    } else {
-        serverStation.station.push(station);
-        return message.channel.send(`Station Has been Changed`);
+    stationMap.set(message.guild.id, stationContruct);
+    stationContruct.station.push(station);
+
+    try {
+        var connection = await VC.join();
+        stationContruct.connection = connection;
+        play(message.guild, stationContruct.station[0]);
+    } catch (err) {
+        console.log(err);
+        stationMap.delete(message.guild.id);
+        return message.channel.send(err);
     }
+
 
 }
 
 // Stop Broadcast
 function stop(message, stationQueue) {
     if (!message.member.voice.channel)
-    return message.channel.send(
-        "You have to be in a voice channel to stop the music!"
-    );
-stationQueue.station = null;
-stationQueue.connection.dispatcher.end();
-stationQueue.voiceChannel.leave();
+        return message.channel.send(
+            "You have to be in a voice channel to stop the music!"
+        );
+    //stationQueue.station = null;
+    stationQueue.connection.dispatcher.end();
+    stationQueue.voiceChannel.leave();
 }
 
 function play(guild, station) {
